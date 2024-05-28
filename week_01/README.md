@@ -85,3 +85,7 @@ Then, we can group them into the following parse tree
 
 `Flex` is a tool that generates programs that perform pattern-matching on text. It is used to generate scanners (lexical analyzers) for programming languages.
 
+## Bison
+
+`Bison` is a parser generator that converts a grammar description into a `C` program to parse that grammar.
+
