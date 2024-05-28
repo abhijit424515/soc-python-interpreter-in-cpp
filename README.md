@@ -11,6 +11,7 @@ Each week's material will be provided in the corresponding `week_<x>` folder, wh
 - [Writing an Interpreter in Go](https://drive.google.com/file/d/10foFyMTyiN1ACWv3CkkzWv3x1D4l61vT/view?usp=drive_link)
 - [Lex and Yacc](https://drive.google.com/file/d/18rJhdtXQ1Ii1DJIqQ_XJWsk3KU_THtlH/view?usp=sharing)
 - [Ullmann Compilers (The Dragon Book)](https://drive.google.com/file/d/1pkaseqApTQeT9beWNsFNF0d1PX5BgWh9/view?usp=sharing)
+- [The Python Language Reference - python.org](https://docs.python.org/3/reference/index.html) 
 
 ---
 
