@@ -83,9 +83,96 @@ Then, we can group them into the following parse tree
 
 ## Flex
 
-`Flex` is a tool that generates programs that perform pattern-matching on text. It is used to generate scanners (lexical analyzers) for programming languages.
+`Flex` is a tool that generates programs that perform pattern-matching on text. It is used to generate scanners (lexical analyzers) for programming languages. It reads the given input files, or its standard input if no file names are given, for a description of a scanner to generate. The description is in the form of pairs of regular expressions and C code, called `rules`. 
+It generates as output a C source file, `lex.yy.c`, which defines a routine `yylex()`. This file is compiled and linked with the `-lfl' library to produce an executable. When the executable is run, it analyzes its input for occurrences of the regular expressions. Whenever it finds one, it executes the corresponding C code. <br>
+The format of an example flex file is given below:
+```
+%{
+// put include statements here
+// can declare variables here
+// normal C like syntax
+include "helper.h"
+
+SymbolTable* symbolTable;
+
+}%
+
+// use this section for defintions to simplify the scanner specification
+
+digit  [0-9]
+ws	[ \t\n]*
+operator [-+*/]
+
+%%
+// use this section to define the rules of the scanner
+
+{digit}+ 	{ yylval = atoi(yytext);
+		            return NUM; 
+		}
+{operator}	{	return yytext[0];	}
+{ws}		;
+
+%%
+// use this section for user code
+// can use standard C syntax here
+```
+
+
+
 
 ## Bison
 
-`Bison` is a parser generator that converts a grammar description into a `C` program to parse that grammar.
+`Bison` is a parser generator that converts a grammar description into a `C` program to parse that grammar. It is a `LALR(1)` parser and hence is limited by its rules. 
+One writes `CFGs` to define rules for a parser written using bison. 
+An example bison file is given below:
+```
+%{
+// like flex use standard C syntax in this section
+# include "helper.h"
 
+
+%}
+
+// Use this section to define new tokens,
+precedences and associativities
+
+%token NUM
+%left '+' '-'
+%left '*' '/'
+%right UMINUS
+%start Start
+%%
+
+// define the rules of the grammar in this section
+// use CFGs to define productions
+
+Start : Expr 
+	{
+		cout << "The result is " << $1 << endl;
+	}
+	;
+
+Expr : Expr '+' Expr			
+		{	$$ = $1 + $3; }
+	| Expr '*' Expr 		
+		{	$$ = $1 * $3; }
+	| Expr '/' Expr 		
+		{	$$ = $1 / $3; }
+	| Expr '-' Expr 		
+		{	$$ = $1 - $3; }
+	| '-' Expr	%prec UMINUS	
+		{	$$ = - $2; 
+		}
+	| NUM
+	;
+	
+%%
+
+// use this section to write any helper code
+
+int main()
+{
+	yyparse();
+}
+
+```
