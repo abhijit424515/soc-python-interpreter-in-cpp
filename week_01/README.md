@@ -23,16 +23,11 @@ For example, `Java` is compiled into `bytecode` which is then interpreted by the
 
 ## Going Deeper
 
-<div style="display: flex; gap: 3rem; width: 100%; justify-content: center; margin-bottom: 2rem">
-  <div style="display: flex; flex-direction: column; align-items: center">
-		<h3>Compilers</h3>
-    <img src="./compiler.svg" />
-  </div>
-	<div style="display: flex; flex-direction: column; align-items: center">
-  	<h3>Interpreters</h3>
-  	<img src="./interpreter.svg" />
-  </div>
-</div>
+### Compilers
+![Image](./compiler.svg)
+
+### Interpreters
+![Image](./interpreter.svg)
 
 Compared to compilers, interpreters have many more possible evaluation strategies (as shown in the diagram) to execute code. 
 
@@ -83,96 +78,58 @@ Then, we can group them into the following parse tree
 
 ## Flex
 
-`Flex` is a tool that generates programs that perform pattern-matching on text. It is used to generate scanners (lexical analyzers) for programming languages. It reads the given input files, or its standard input if no file names are given, for a description of a scanner to generate. The description is in the form of pairs of regular expressions and C code, called `rules`. 
-It generates as output a C source file, `lex.yy.c`, which defines a routine `yylex()`. This file is compiled and linked with the `-lfl' library to produce an executable. When the executable is run, it analyzes its input for occurrences of the regular expressions. Whenever it finds one, it executes the corresponding C code. <br>
-The format of an example flex file is given below:
-```
-%{
-// put include statements here
-// can declare variables here
-// normal C like syntax
-include "helper.h"
+`Flex` is a tool that generates programs (having `.l` extension) that perform pattern-matching on text. It is used to generate scanners (lexical analyzers) for programming languages. 
 
-SymbolTable* symbolTable;
+It reads the given input files, or its standard input if no file names are given, for a description of a scanner to generate. The description is in the form of pairs of regular expressions and C code, called `rules`.
 
-}%
+It generates as output a C source file named `lex.yy.c`, which defines a routine `yylex()`. This file is compiled and linked with the `-lfl` library to produce an executable. When the executable is run, it analyzes its input for occurrences of the regular expressions. Whenever it finds one, it executes the corresponding C code. 
 
-// use this section for defintions to simplify the scanner specification
+For an example, checkout the `pic.l` file in the `week_01/examples/calculator/` folder.
 
-digit  [0-9]
-ws	[ \t\n]*
-operator [-+*/]
-
-%%
-// use this section to define the rules of the scanner
-
-{digit}+ 	{ yylval = atoi(yytext);
-		            return NUM; 
-		}
-{operator}	{	return yytext[0];	}
-{ws}		;
-
-%%
-// use this section for user code
-// can use standard C syntax here
-```
-
-
-
+In the `rules` section, each line consists of a regex followed by the code to be executed when that regex is matched. The code is enclosed in `{}`.	
 
 ## Bison
 
-`Bison` is a parser generator that converts a grammar description into a `C` program to parse that grammar. It is a `LALR(1)` parser and hence is limited by its rules. 
-One writes `CFGs` to define rules for a parser written using bison. 
-An example bison file is given below:
-```
-%{
-// like flex use standard C syntax in this section
-# include "helper.h"
+> Some references may mention Yacc, which is nearly the same as Bison. Bison is a GNU project and has a few extra features compared to Yacc. The syntax is almost the same, so you can use either of them.
 
+`Bison` is a parser generator that converts a grammar description into a `C` program to parse that grammar. It is a `LALR(1)` parser and hence is limited by its rules. One writes context-free grammars or `CFGs` to define the rules in the parser. 
 
-%}
+### What is a CFG ?
 
-// Use this section to define new tokens,
-precedences and associativities
+A context-free grammar is a set of recursive rules used to generate patterns of strings. It is used to define the syntax of programming languages.
 
-%token NUM
-%left '+' '-'
-%left '*' '/'
-%right UMINUS
-%start Start
-%%
+CFGs are adequately explained in the `Lex and Yacc` book (link in the parent README file) in Chapter 3 (Using Yacc) from Section 1 (Grammars) to Section 4 (What Yacc Cannot Parse). 
 
-// define the rules of the grammar in this section
-// use CFGs to define productions
+---
 
-Start : Expr 
-	{
-		cout << "The result is " << $1 << endl;
-	}
-	;
+For an example, checkout the `pic.y` file in the `week_01/examples/calculator/` folder.
 
-Expr : Expr '+' Expr			
-		{	$$ = $1 + $3; }
-	| Expr '*' Expr 		
-		{	$$ = $1 * $3; }
-	| Expr '/' Expr 		
-		{	$$ = $1 / $3; }
-	| Expr '-' Expr 		
-		{	$$ = $1 - $3; }
-	| '-' Expr	%prec UMINUS	
-		{	$$ = - $2; 
-		}
-	| NUM
-	;
-	
-%%
+In the `GRAMMAR` section, we define the rules for the parser. Each rule consists of a non-terminal followed by a colon and then the terminals and non-terminals that can be derived from that non-terminal. The code to be executed when that rule is matched is enclosed in `{}`.
 
-// use this section to write any helper code
+If your input is not in the language defined by the grammar, the parser will throw a `syntax error`.
 
-int main()
-{
-	yyparse();
-}
+In the `week_01/examples/calculator` program, we have defined a simple calculator that can perform addition, subtraction, multiplication, and division using variables (see the sample input).
 
-```
+However, in the `week_01/examples/json` program, we have not specified any actions in the `pic.y` file. So, if your input is in the language defined by the grammar, the parser will not throw any error and no output will be generated (exit code 0).
+
+---
+
+## Examples
+
+2 examples have been provided in the `week_01/examples` folder, namely `calculator` and `json`. For each of them, there is a `Makefile` that can be used to compile the program.
+
+After changing to the respective directory, run `make` to compile the program, which produces the `runme` executable. Then, run `./runme < input` to run the program, using the `input` file as input to the program.
+
+Feel free to modify the `input` file to test the program with different inputs.
+
+You can also run the `calculator` program without the `< input` to run the program in interactive mode. Use `Ctrl+D` to exit the program.
+
+## Assignment
+
+- If you haven't done a course on `Theory of Computation`, read the `Lex and Yacc` book (link in the parent README file) Chapter 3 (Using Yacc) from Section 1 (Grammars) to Section 4 (What Yacc Cannot Parse) to understand CFGs. 
+- Understand the `week_01/examples/calculator` and `week_01/examples/json` programs, and write the actions for the `json` program. You will need to create approprate classes like `JSONArray`, `JSONObject`, `JSONString`, `JSONNumber`, etc. and then create a `JSON` object that can be used to represent the JSON input.
+- Using the given example programs, create a parser for CSV files (having a header row on top). Start with the lexer and then move on to the parser.
+
+### Submission
+
+TBA

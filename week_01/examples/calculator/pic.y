@@ -1,4 +1,6 @@
 %{
+		// Declarations (C++ code)
+
     #include "pic.cc"
     extern "C" void yyerror(const char *s);
     extern int yylex(void);
@@ -10,32 +12,32 @@
 	Expression *exp;
 }
 
-%token INT_CONST FLT_CONST NAME
+%token INT_CONST FLT_CONST NAME 					// Token declarations (lexer uses these declarations to return tokens)
 
-%left '+' '-'
-%left '*' '/'
-%right Uminus
+%left '+' '-' 														// Left associative operators '+' and '-'
+%left '*' '/' 														// Left associative operators '*' and '/'
+%right Uminus 														// Right associative unary minus operator
 
-%type <name> INT_CONST FLT_CONST NAME
-%type <exp> expression
+%type <name> INT_CONST FLT_CONST NAME 		// Declare token types to be of type *string
+%type <exp> expression 										// Declare the expression non-terminal to be of type *Expression
 
-%start program
+%start program 														// Starting rule for the grammar
 %%
 
 /* GRAMMAR */
 
 program
-	:	stmt_list
+	:	stmt_list															// A program consists of a list of statements
 ;
 
 stmt_list
-	:	stmt_list stmt
-	|	stmt
+	:	stmt_list stmt												// A statement list can be another statement list followed by a statement
+	|	stmt																	// Or just a single statement
 ;
 
 stmt
-	:	NAME '=' expression ';'								{ double x = $3->get_value(); table[*($1)] = x; }
-	| expression ';'												{ double x = $1->get_value(); cout << x << endl; }
+	:	NAME '=' expression ';'								{ double x = $3->get_value(); table[*($1)] = x; }		// Assignment statement
+	| expression ';'												{ double x = $1->get_value(); cout << x << endl; } 	// Expression statement: just evaluate the expression and print its value
 ;
 
 expression
@@ -53,7 +55,7 @@ expression
 
 /* ADDITIONAL C CODE */
 
-int main(){
+int main() { // here's our main function, where it all starts
   yyparse();
   return 0;
 }

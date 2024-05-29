@@ -1,3 +1,5 @@
+/* PROLOGUE */
+
 %{
 	#include "pic.hh"
 	#include "parse.tab.h"
@@ -9,6 +11,8 @@
 /* yywrap handles the end-of-input logic, if noyywrap is used, program exits on end-of-file (EOF) */
 %option noyywrap 
 
+/* DEFINITIONS */
+
 digit                       [0-9]
 fraction                    ([0-9]*\.[0-9]+|[0-9]+\.[0-9]*)
 ws													[ \t\n]*
@@ -16,6 +20,7 @@ operator										[-+*/=;]
 letter                      [a-zA-Z_]
 
 /* RULES */
+
 %%
 
 {digit}+										{ yylval.name = new string(yytext); return INT_CONST; }
