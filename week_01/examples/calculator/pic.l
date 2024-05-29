@@ -10,6 +10,7 @@
 %option noyywrap 
 
 digit                       [0-9]
+fraction                    ([0-9]*\.[0-9]+|[0-9]+\.[0-9]*)
 ws													[ \t\n]*
 operator										[-+*/=;]
 letter                      [a-zA-Z_]
@@ -18,6 +19,7 @@ letter                      [a-zA-Z_]
 %%
 
 {digit}+										{ yylval.name = new string(yytext); return INT_CONST; }
+{fraction}									{ yylval.name = new string(yytext); return FLT_CONST; }
 {operator}									{ return yytext[0]; }
 {letter}({letter}|{digit})* { yylval.name = new string(yytext); return NAME; }
 

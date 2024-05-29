@@ -2,7 +2,7 @@
     #include "pic.cc"
     extern "C" void yyerror(const char *s);
     extern int yylex(void);
-		extern map<string, int> table;
+		extern map<string, double> table;
 %}
 
 %union{
@@ -10,13 +10,13 @@
 	Expression *exp;
 }
 
-%token INT_CONST NAME
+%token INT_CONST FLT_CONST NAME
 
 %left '+' '-'
 %left '*' '/'
 %right Uminus
 
-%type <name> INT_CONST NAME
+%type <name> INT_CONST FLT_CONST NAME
 %type <exp> expression
 
 %start program
@@ -34,17 +34,18 @@ stmt_list
 ;
 
 stmt
-	:	NAME '=' expression ';'								{ int x = $3->get_value(); table[*($1)] = x; }
-	| expression ';'												{ int x = $1->get_value(); cout << x << endl; }
+	:	NAME '=' expression ';'								{ double x = $3->get_value(); table[*($1)] = x; }
+	| expression ';'												{ double x = $1->get_value(); cout << x << endl; }
 ;
 
 expression
-	: expression '+' expression							{ int x1 = $1->get_value(); int x2 = $3->get_value(); $$ = new Expression(x1 + x2); }
-	| expression '*' expression							{ int x1 = $1->get_value(); int x2 = $3->get_value(); $$ = new Expression(x1 * x2); }
-	| expression '/' expression							{ int x1 = $1->get_value(); int x2 = $3->get_value(); $$ = new Expression(x1 / x2); }
-	| expression '-' expression							{ int x1 = $1->get_value(); int x2 = $3->get_value(); $$ = new Expression(x1 - x2); }
-	| '-' expression %prec Uminus						{ int x = $2->get_value(); $$ = new Expression(-x); }
+	: expression '+' expression							{ double x1 = $1->get_value(); double x2 = $3->get_value(); $$ = new Expression(x1 + x2); }
+	| expression '*' expression							{ double x1 = $1->get_value(); double x2 = $3->get_value(); $$ = new Expression(x1 * x2); }
+	| expression '/' expression							{ double x1 = $1->get_value(); double x2 = $3->get_value(); $$ = new Expression(x1 / x2); }
+	| expression '-' expression							{ double x1 = $1->get_value(); double x2 = $3->get_value(); $$ = new Expression(x1 - x2); }
+	| '-' expression %prec Uminus						{ double x = $2->get_value(); $$ = new Expression(-x); }
 	| INT_CONST															{ $$ = new Expression(atoi($1->c_str())); }
+	| FLT_CONST															{ $$ = new Expression(atof($1->c_str())); }
 	| NAME																	{ $$ = new Expression($1); }
 ;
 

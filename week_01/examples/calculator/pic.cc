@@ -1,3 +1,3 @@
 #include "pic.hh"
 
-map<string,int> table;
+map<string,double> table;

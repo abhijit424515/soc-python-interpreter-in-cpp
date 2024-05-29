@@ -4,10 +4,10 @@
 #include <string>
 using namespace std;
 
-extern map<string,int> table;
+extern map<string,double> table;
 
 union value {
-	int a;
+	double a;
 	string *b;
 };
 
@@ -15,7 +15,7 @@ struct Expression {
 	int etype;
 	value v;
 
-	Expression(int x = 0) {
+	Expression(double x = 0) {
 		etype = 0;
 		v.a = x;
 	}
@@ -25,7 +25,7 @@ struct Expression {
 		v.b = x;
 	}
 
-	int get_value() {
+	double get_value() {
 		switch (etype)
 		{
 			case 0:
