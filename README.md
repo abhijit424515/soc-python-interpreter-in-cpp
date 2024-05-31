@@ -5,6 +5,7 @@ Welcome to this SoC 2024 project.
 Each week's material will be provided in the corresponding `week_<x>` folder, which will contain a `week_<x>.zip` file and a `README` file containing theory and instructions for that week.
 
 > Week 1 material is available in the `week_01` folder.
+> If you are facing issues with make, read the [docker.md](./docker.md) file for instructions on how to setup a container for the project.
 
 ## References
 
