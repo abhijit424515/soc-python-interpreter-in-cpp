@@ -128,9 +128,9 @@ You can also run the `calculator` program without the `< input` to run the progr
 
 - If you haven't done a course on `Theory of Computation`, read the `Lex and Yacc` book (link in the parent README file) Chapter 3 (Using Yacc) from Section 1 (Grammars) to Section 4 (What Yacc Cannot Parse) to understand CFGs. 
 - Understand the `week_01/examples/calculator` and `week_01/examples/json` programs, and write the actions for the `json` program. You will need to create approprate classes like `JSONArray`, `JSONObject`, `JSONString`, `JSONNumber`, etc. and then create a `JSON` object that can be used to represent the JSON input.
-  - Checkout `assignments/json.h`.
+  - Checkout `refs/json.h` and `refs/json_test.cc` files.
 - Using the given example programs, create a parser for CSV files (having a header row on top). Start with the lexer and then move on to the parser.
-  - Checkout `assignments/csv.h`.
+  - Checkout `refs/csv.h` and `refs/csv_test.cc` files.
 
 ### Submission
 
