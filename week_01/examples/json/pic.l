@@ -11,26 +11,26 @@
 
 digit                       [0-9]
 fraction                    ([0-9]*\.[0-9]+|[0-9]+\.[0-9]*)
-ws													[ \t\n]*
+ws							[ \t\n]*
 letter                      [a-zA-Z_]
 
 /* RULES */
 %%
 
-true												{ return TRUE_CONST; }
-false												{ return FALSE_CONST; }
-null												{ return NULL_CONST; }
+true						{ return TRUE_CONST; }
+false						{ return FALSE_CONST; }
+null						{ return NULL_CONST; }
 
-\{													{ return LCB; }	
-\}													{ return RCB; }
-\[													{ return LSB; }
-\]													{ return RSB; }
-,														{ return COMMA; }
-:														{ return COLON; }
+\{							{ return LCB; }	
+\}							{ return RCB; }
+\[							{ return LSB; }
+\]							{ return RSB; }
+,							{ return COMMA; }
+:							{ return COLON; }
 
--?{digit}+									{ yylval.name = new string(yytext); return INT_CONST; }
--?{fraction}								{ yylval.name = new string(yytext); return FLT_CONST; }
+-?{digit}+					{ yylval.name = new string(yytext); return INT_CONST; }
+-?{fraction}				{ yylval.name = new string(yytext); return FLT_CONST; }
 \"([^\"]*)\"                { yylval.name = new string(yytext); return STR_CONST; }
 
-{ws}       									; /* Ignore spaces */
-.         									{ fprintf(stderr, "unknown_token: %d\n", yytext[0]); exit(1); }
+{ws}       					; /* Ignore spaces */
+.         					{ fprintf(stderr, "unknown_token: %d\n", yytext[0]); exit(1); }
