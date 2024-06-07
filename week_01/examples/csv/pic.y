@@ -14,7 +14,7 @@
 
 }
 
-%token TRUE_CONST FALSE_CONST NULL_CONST COMMA INT_CONST FLT_CONST STR_CONST
+%token TRUE_CONST FALSE_CONST NULL_CONST COMMA INT_CONST FLT_CONST STR_CONST NEWLINE
 %type <name> INT_CONST FLT_CONST STR_CONST
 %type <elem> name literal
 %type <csv> header
@@ -31,10 +31,10 @@
  */
 
 program
-	: %empty						{cout<<"Empty file"<<endl;}
-	| header						{$1->print(); delete $1;}
-	| header tail					{	
-										$1->process_entries($2);
+	: optional_newline						{cout<<"Empty file"<<endl;}
+	| header		optional_newline				{$1->print(); delete $1;}
+	| header NEWLINE tail optional_newline					{	
+										$1->process_entries($3);
 										$1->print();
 										delete $1;
 									}
@@ -49,7 +49,7 @@ name_array
 
 tail
 	: array							{$$ = append_list_vec(nullptr, $1);}
-	| tail array					{$$ = append_list_vec($1, $2);}
+	| tail NEWLINE array					{$$ = append_list_vec($1, $3);}
 
 array
 	: %empty						{$$ = append_list_obj(nullptr, new CSVElem(nullptr,CSV_NULL));}
@@ -66,6 +66,10 @@ literal
 
 name
 	: STR_CONST						{$$ = new CSVElem($1, CSV_STRING);}
+
+optional_newline
+ : NEWLINE
+ | %empty
 %%
 /* ADDITIONAL C CODE */
 
