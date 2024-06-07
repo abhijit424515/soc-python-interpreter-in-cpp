@@ -37,9 +37,12 @@ null												{ return NULL_CONST; }
 {letter}[{letter}{digit}]*				{ yylval.name = new string(yytext); return STR_CONST; }
 \"([^\"]*)\"                			{ 
 											string str = yytext;
-											str = str.substr(1, str.length() - 2); // remove leading and trailing quotes
+											// str = str.substr(1, str.length() - 2); // remove leading and trailing quotes
+        // not removing the quotes as we just have to print back here. if I wanted to use this value I would splice
 											yylval.name = new string(str);
 											return STR_CONST;
 										}
+
+\n                             { return NEWLINE;} 
 
 .         									{ fprintf(stderr, "unknown_token: %d\n", yytext[0]); exit(1); }
