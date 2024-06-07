@@ -9,10 +9,10 @@
 /* yywrap handles the end-of-input logic, if noyywrap is used, program exits on end-of-file (EOF) */
 %option noyywrap 
 
-digit                       [0-9]
-fraction                    ([0-9]*\.[0-9]+|[0-9]+\.[0-9]*)
-ws													[ \t\n]*
-letter                      [a-zA-Z_]
+digit									[0-9]
+fraction                    			(-?[0-9]*\.[0-9]+|[0-9]+\.[0-9]*)
+ws										[ \t\n]*
+letter                      			[a-zA-Z_]
 
 /* RULES */
 
@@ -26,23 +26,16 @@ letter                      [a-zA-Z_]
  */
 %%
 
-true												{ return TRUE_CONST; }
-false												{ return FALSE_CONST; }
-null												{ return NULL_CONST; }
+true									{ return TRUE_CONST; }
+false									{ return FALSE_CONST; }
+null									{ return NULL_CONST; }
 
-,														{ return COMMA; }
+,										{ return COMMA; }
 
--?{digit}+									{ yylval.name = new string(yytext); return INT_CONST; }
--?{fraction}								{ yylval.name = new string(yytext); return FLT_CONST; }
-{letter}[{letter}{digit}]*				{ yylval.name = new string(yytext); return STR_CONST; }
-\"([^\"]*)\"                			{ 
-											string str = yytext;
-											// str = str.substr(1, str.length() - 2); // remove leading and trailing quotes
-        // not removing the quotes as we just have to print back here. if I wanted to use this value I would splice
-											yylval.name = new string(str);
-											return STR_CONST;
-										}
+-?{digit}+								{ yylval.name = new string(yytext); return INT_CONST; }
+{fraction}								{ yylval.name = new string(yytext); return FLT_CONST; }
+{letter}({letter}|{digit})*				{ yylval.name = new string(yytext); return STR_CONST; }
+\"([^\"]*)\"                			{ yylval.name = new string(yytext); return STR_CONST; }
 
-\n                             { return NEWLINE;} 
-
-.         									{ fprintf(stderr, "unknown_token: %d\n", yytext[0]); exit(1); }
+\n      	                       		{ return NEWLINE;} 
+.         								{ fprintf(stderr, "unknown_token: %d\n", yytext[0]); exit(1); }

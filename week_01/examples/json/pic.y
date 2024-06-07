@@ -1,7 +1,7 @@
 %{
-    #include "pic.cc"
-    extern "C" void yyerror(const char *s);
-    extern int yylex(void);
+	#include "pic.cc"
+	extern "C" void yyerror(const char *s);
+	extern int yylex(void);
 %}
 
 %union{
@@ -34,38 +34,38 @@ program
 ;
 
 array
-	: LSB objects RSB					{ $$ = create_ja($2); }
+	: LSB objects RSB							{ $$ = create_ja($2); }
 	| LSB RSB									{ $$ = create_ja(nullptr); }
 ;
 
 objects
-	: objects COMMA object		{ $$ = append_list_obj($1, $3); }
+	: objects COMMA object						{ $$ = append_list_obj($1, $3); }
 	| object									{ $$ = append_list_obj(nullptr, $1); }
 ;
 
 object
-	: LCB pairs RCB						{ $$ = create_obj($2); }
+	: LCB pairs RCB								{ $$ = create_obj($2); }
 	| LCB RCB									{ $$ = create_obj(nullptr); }
 ;
 
 pairs
-	: pairs COMMA pair				{ $$ = append_list_pair($1, $3); }
+	: pairs COMMA pair							{ $$ = append_list_pair($1, $3); }
 	| pair										{ $$ = append_list_pair(nullptr, $1); }
 ;
 
 pair
-	: STR_CONST COLON value		{ $$ = new pair<string,JSONValue*>(*($1), $3); }
+	: STR_CONST COLON value						{ $$ = new pair<string,JSONValue*>(*($1), $3); }
 ;
 
 value
 	: object									{ $$ = new JSONValue(*($1)); }
 	| array										{ $$ = new JSONValue(*($1)); }
-	| STR_CONST								{ $$ = new JSONValue(*($1)); }
-	| INT_CONST								{ $$ = new JSONValue(atoi($1->c_str())); }
-	| FLT_CONST								{ $$ = new JSONValue(atof($1->c_str())); }
-	| TRUE_CONST							{ $$ = new JSONValue(true); }
-	| FALSE_CONST							{ $$ = new JSONValue(false); }
-	| NULL_CONST							{ $$ = new JSONValue(nullptr); }
+	| STR_CONST									{ $$ = new JSONValue(*($1)); }
+	| INT_CONST									{ $$ = new JSONValue(atoi($1->c_str())); }
+	| FLT_CONST									{ $$ = new JSONValue(atof($1->c_str())); }
+	| TRUE_CONST								{ $$ = new JSONValue(true); }
+	| FALSE_CONST								{ $$ = new JSONValue(false); }
+	| NULL_CONST								{ $$ = new JSONValue(nullptr); }
 ;
 
 %%
