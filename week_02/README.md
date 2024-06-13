@@ -26,10 +26,10 @@ Since there are many rules in the official YAML syntax, we will only be followin
 
 Here are some examples
 
-```
+```yaml
 "A":
-  "B":"C"
-  "D":"E"
+  "B": "C"
+  "D": "E"
 ```
 
 ```json
@@ -43,7 +43,7 @@ Here are some examples
 
 ---
 
-```
+```yaml
 "A":
   - "B": "C"
   - "D": "E"
@@ -64,7 +64,7 @@ Here are some examples
 
 ---
 
-```
+```yaml
 "A":
   - "B": "C"
     "D": "E"
