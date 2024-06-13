@@ -13,6 +13,68 @@ Some of the mentees are apparently unable to continue with the current pace, bec
 -   the assignment is to be done in the assigned pairs instead of doing it solo.
 -   we are mandating the submission of the above YAML assignment. Since we have uploaded the solutions to the JSON and CSV assignments, this assignment should be on the same level as them, and is only meant to ensure a mentee's participation in this SoC. **Only those mentees who will submit a valid solution to this assignment will be eligible for the SoC certification**.
 
+### YAML Syntax Specification
+
+Since there are many rules in the official YAML syntax, we will only be following the following specification rules (the result will not be a valid YAML file since we are making some contradicting assumptions for this assignment)
+
+- all keys are enclosed in quotes (in YAML, quotes are necessary only if a key has spaces in between, but for simplicity we are always using quotes)
+- YAML allows you to use curly braces also for dictionaries, but we will only consider the use of indentation for the same
+- Instead of using square brackets to denote a list, we will use a hyphen `-` followed by a tab to denote a list element
+- Same as in JSON, `true`, `false` and `null` are in lowercase
+- For indentation, YAML uses 2 spaces as a single indent, and using tabs is not valid YAML. However, we will be using the tab character `\t` for indentation in this assignment.
+- Other rules, like multiline strings and stuff, are to be ignored for this assignment.
+
+Here is an example
+
+```yaml
+-	"1": true
+	"2":
+	-	"a"
+	-	"b"
+	"kjsnfjksn":
+		"1": "1"
+		"2": "2"
+		"3": "3"
+	"3":
+	-	"1": "1"
+    	"2": "2"
+    	"3": "3"
+    -	"1": "1"
+    	"2": "2"
+    	"3": "3"
+```
+
+which is the equivalent of the following JSON 
+
+```json
+[
+	{
+		"1": true,
+		"2": [
+			"a",
+			"b"
+		],
+		"kjsnfjksn": {
+			"1": "1",
+			"2": "2",
+			"3": "3"
+		},
+		"3": [
+			{
+				"1": "1",
+				"2": "2",
+				"3": "3"
+			},
+			{
+				"1": "1",
+				"2": "2",
+				"3": "3"
+			}
+		]
+	}
+]
+```
+
 ## Sidenote
 
 Upon contacting the mentees regarding last week's content and assignment progress, most of them had responses ranging from having just started the assignment or not understanding the content to having finished the material but yet to start the assignment. Hardly 1-2 mentees finished the assignment, whose solutions were released about 9-10 days after the assignment release.
