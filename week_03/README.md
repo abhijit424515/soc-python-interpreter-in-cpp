@@ -20,6 +20,14 @@ Since the book is meant to write the interpreter in `Go`, this week's assignment
 
 3. Since the author has manually written the parser too, you need to write your own grammar for the `Monkey` language. Here is a good reference [SCLP](https://www.cse.iitb.ac.in/~uday/sclp-web/). This is the website of our Compilers lab course, which also contains the grammar for `C`. You can go through it alongwith Chapter 2 of the `Writing an Interpreter in Go` book to understand how to write a grammar for the `Monkey` language yourself. **Currently, we are only expecting a basic grammar
 
+---
+
+## [The Monkey Programming Language](./monkey.md)
+
+Repositories for additional open-source implementations of the Monkey programming language are listed on the [official website](https://monkeylang.org/). **Do check them out for hints**.
+
+---
+
 ## Submission
 
 **From this week onwards, the assignments will follow a sequential pattern, and will be cumulative in nature. This means that the assignments will build on top of each other, and the final submission will be a complete interpreter for the `Monkey` programming language.**
@@ -43,7 +51,6 @@ As for the deadline, I am personally not sure how much time this will take, so I
 
 | Name             | Team | Mentors           |
 | ---------------- | ---- | ----------------- |
-| Arohan Hazarika  | A    | Abhijit, Sankalan |
 | Malay Kedia      | A    | Abhijit, Sankalan |
 | Abhinav Vaishnav | B    | Abhijit, Kartik   |
 | Madhava Sriram   | B    | Abhijit, Kartik   |
